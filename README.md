@@ -1,17 +1,21 @@
 # IMovies — Movie Ticket Booking
 
-A full-stack MERN starter application for browsing movies, choosing showtimes, selecting seats, and managing bookings.
+A full-stack MERN starter application for browsing movies, choosing a show, selecting seats, and creating bookings.
 
 ## Stack
-- React + Vite frontend
-- Node.js + Express backend
+- React + Vite
+- Express + Node.js
 - MongoDB + Mongoose
-- JWT authentication and bcrypt password hashing
+- JWT authentication + bcryptjs
+- React Router
 
-## Project setup
-Download the project ZIP from the conversation and extract it. The README inside the ZIP has complete setup details.
+## Requirements
+- Node.js 20+
+- MongoDB Community Server or a MongoDB Atlas connection string
 
-### Backend
+## Setup
+
+### 1. Backend
 ```bash
 cd server
 cp .env.example .env
@@ -19,20 +23,38 @@ npm install
 npm run seed
 npm run dev
 ```
-Set `MONGODB_URI` in `server/.env` to your MongoDB connection string.
+Set `MONGODB_URI` in `server/.env`. The API runs at `http://localhost:5000`.
 
-### Frontend (new terminal)
+### 2. Frontend
+Open a second terminal:
 ```bash
 cd client
 npm install
 npm run dev
 ```
-Open the Vite URL shown in the terminal (usually http://localhost:5173).
+Open the URL printed by Vite (usually `http://localhost:5173`).
 
-## Notes
-- Payment is demo-only; no real transaction is processed.
-- Do not commit `.env` or credentials.
-- Review and test all functionality before submission/deployment.
+### Demo admin
+After seeding, the admin user is:
+- Email: `admin@imovies.local`
+- Password: `Admin123!`
 
-## Full project files
-The complete starter project ZIP is available from the ChatGPT conversation: `IMovies-MERN-Project.zip`.
+Change this password before using the app outside a local demo.
+
+## Main API routes
+- `GET /api/health`
+- `GET /api/movies`
+- `GET /api/movies/:id`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me` (JWT required)
+- `GET /api/shows?movieId=<id>`
+- `POST /api/bookings` (JWT required)
+- `GET /api/bookings/mine` (JWT required)
+- `GET /api/admin/summary` (admin JWT required)
+
+## Important notes
+- Payments are represented as a demo checkout flow only. No real payment is taken.
+- Seat availability is checked by the API before a booking is created, but a production deployment should use a MongoDB transaction and a unique seat/show constraint to prevent race conditions.
+- Add a real payment provider, email notifications, production logging, rate limiting, tests, and deployment secrets before production use.
+- Never commit `.env` or real credentials.
